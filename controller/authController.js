@@ -36,7 +36,8 @@ module.exports.Login= async (req,res) => {
         }
     
         const token = seller.generateAuthToken();
-        res.status(200).send({ data: token, message: "Logged In Successfully" });
+        res.status(200).send({ data: token,seller:seller._id, message: "Logged In Successfully" });
+
       } catch (error) {
         console.log(error);
         res.status(500).send({ message: "Internal Server Error" });

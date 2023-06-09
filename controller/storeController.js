@@ -8,10 +8,10 @@ module.exports.createStore = async (req, res) => {
 
    try {
 
+    const sellerId = req.params.id;
+    const { gst, logo, store_timing} = req.body;
 
-    const {sellerId, gst, logo, store_timing} = req.body;
-
-    const seller = await Seller.findOne({_id: req.body.sellerId});
+    const seller = await Seller.findOne({_id: req.params.id});
     const store = await Store.findOne({gst: req.body.gst});
 
 
@@ -35,6 +35,9 @@ module.exports.createStore = async (req, res) => {
       logo, 
       store_timing
     });
+
+    addNewStore.seller = sellerId;
+    await addNewStore.save();
 
     return res.json({
         storeAdded: addNewStore,
@@ -93,7 +96,11 @@ module.exports.createSubCategory = async (req, res) => {
     
     try {
 
-        const {categoryId,sellerId, subcategory_name} = req.body;
+        const categoryId = req.params.categoryId;
+        const sellerId = req.params.sellerId;
+
+        const {subcategory_name} = req.body;
+        
 
         const category = await Category.findOne({_id: categoryId});
         const seller = await Seller.findOne({_id: sellerId});
@@ -132,7 +139,10 @@ module.exports.createSubCategory = async (req, res) => {
 
 module.exports.createInventory = async (req,res)=> {
 
-    const {categoryId, subCategoryId, product_name, MRP, selling_price, quantity, product_images} = req.body;
+    const categoryId = req.params.categoryId;
+    const subCategoryId = req.params.subCategoryId;
+
+    const {product_name, MRP, selling_price, quantity, product_images} = req.body;
 
     try {
 
@@ -162,6 +172,9 @@ module.exports.createInventory = async (req,res)=> {
 
 
         });
+
+        subCategory.inventory.push(addNewInventory._id);
+        await subCategory.save();
     
         return res.json({
             inventoryAdded: addNewInventory,
