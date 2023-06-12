@@ -22,11 +22,11 @@ const sellerSchema = new mongoose.Schema({
     },
     storeInfo: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Store"
+        ref: "store"
     },
     category: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category'
+        ref: 'category'
     }],
     subCategory: [{
         type: mongoose.Schema.Types.ObjectId,
