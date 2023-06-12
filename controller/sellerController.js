@@ -39,22 +39,26 @@ module.exports.Register = async (req, res) => {
 }
     
 module.exports.getSpecificSellerDetails = async (req, res) => {
-    try{
-     const {id} = req.params.id;
-     const sellerDetails = await Seller.findOne({id: id});
- 
-     if(!sellerDetails){
-         return res.status(400).json({
-             message: "Seller Not found !"
-         })
-     }
- 
-     return res.status(200).json({
-         sellerDetails: sellerDetails,
-         message: "Seller Displayed Successfully"
-     });
- }catch(error){
-     console.log(error);
-     res.status(500).send({message: "Internal Server Error"});
+
+    try {
+    const { id } = req.params.id;
+    console.log(req.params.id);
+
+    const sellerDetails = await Seller.findOne({_id: req.params.id}).populate('category').populate('subCategory');
+
+    if(!sellerDetails){
+        return res.status(400).json({
+            message: "Seller Not found!"
+        })
     }
- }
+
+    return res.status(200).json({
+        sellerDetails: sellerDetails,
+        message: "Seller Displayed Successfully"
+    });
+    
+   }catch(error){
+    console.log(error);
+    res.status(500).send({message: "Internal Server Error"});
+   }
+}
