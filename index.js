@@ -2,7 +2,7 @@ const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
 const db = require('./config/mongoose');
-const port = 8000;
+const port = process.env.PORT || 8000;
 const app = express();
 
 app.use(cors());
