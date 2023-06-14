@@ -13,14 +13,14 @@ module.exports.Register = async (req, res) => {
 
          // Check if password and confirm password match
     if (req.body.password !== req.body.confirmPassword) {
-        return res.status(400).json({ error: 'Passwords do not match' });
+        return res.status(400).json({ error: 'Passwords does match' });
       }
           // Check if seller already exists
         const seller = await Seller.findOne({email: req.body.email});
 
         if(seller){
             return res.status(409).send({
-                message: "Seller with given email already exists"
+                message: "Seller email id already exists"
             });
         }
          // Hash the password

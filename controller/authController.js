@@ -1,5 +1,3 @@
-
-
 const { Seller } = require("../models/seller");
 const Joi = require("joi");
 const bcrypt = require("bcrypt");
@@ -23,7 +21,7 @@ module.exports.Login= async (req,res) => {
         const seller = await Seller.findOne({ email: req.body.email });
     
         if (!seller) {
-          return res.status(401).send({ message: "Invalid Email or Password" });
+          return res.status(401).send({ message: "Invalid Email Id or Password" });
         }
     
         const validPassword = await bcrypt.compare(
@@ -32,7 +30,7 @@ module.exports.Login= async (req,res) => {
         );
     
         if (!validPassword) {
-          return res.status(401).send({ message: "Invalid Email or Password" });
+          return res.status(401).send({ message: "Invalid Email Id or Password" });
         }
     
         const token = seller.generateAuthToken();
